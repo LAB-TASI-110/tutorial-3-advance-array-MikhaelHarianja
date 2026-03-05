@@ -1,6 +1,6 @@
 #include <stdio.h> // Diperlukan untuk fungsi input/output seperti printf dan scanf
 #include <stdlib.h> // Diperlukan untuk fungsi malloc dan free
-#include <limits.h> // Diperlukan untuk INT_MAX dan INT_MIN
+#include <limits.h> // Diperlukan untuk INT_MAX dan INT_MIN (untuk inisialisasi min/max)
 
 // Fungsi untuk mendapatkan nilai n dari pengguna
 int getN() {
@@ -34,11 +34,12 @@ double calculateAverage(double sum, int n) {
     return sum / n;
 }
 
-// Fungsi untuk menghitung berapa banyak bilangan di atas rata-rata
-int countNumbersAboveAverage(int n, int *arr, double average) {
+// FUNGSI INI MENGHITUNG berapa banyak bilangan di atas ATAU SAMA DENGAN rata-rata
+int countNumbersAboveOrEqualToAverage(int n, int *arr, double average) {
     int count = 0;
     for (int i = 0; i < n; i++) {
-        if (arr[i] > average) {
+        // Logika perbandingan yang diperbaiki: dari '>' menjadi '>='
+        if (arr[i] >= average) {
             count++;
         }
     }
@@ -47,7 +48,7 @@ int countNumbersAboveAverage(int n, int *arr, double average) {
 
 // Fungsi baru untuk menemukan nilai minimum dari array
 int findMinimum(int n, int *arr) {
-    if (n <= 0) return INT_MAX; // Mengembalikan nilai max int jika array kosong
+    if (n <= 0) return INT_MAX; // Mengembalikan nilai max int jika array kosong atau tidak valid
     int minVal = arr[0];
     for (int i = 1; i < n; i++) {
         if (arr[i] < minVal) {
@@ -59,7 +60,7 @@ int findMinimum(int n, int *arr) {
 
 // Fungsi baru untuk menemukan nilai maksimum dari array
 int findMaximum(int n, int *arr) {
-    if (n <= 0) return INT_MIN; // Mengembalikan nilai min int jika array kosong
+    if (n <= 0) return INT_MIN; // Mengembalikan nilai min int jika array kosong atau tidak valid
     int maxVal = arr[0];
     for (int i = 1; i < n; i++) {
         if (arr[i] > maxVal) {
@@ -70,10 +71,10 @@ int findMaximum(int n, int *arr) {
 }
 
 // Fungsi untuk menampilkan hasil
-void printResults(double sum, double average, int countAboveAverage, int minMaxDiff) {
+void printResults(double sum, double average, int countAboveOrEqualToAverage, int minMaxDiff) {
     printf("%.0f\n", sum);
     printf("%.2f\n", average);
-    printf("%d\n", countAboveAverage);
+    printf("%d\n", countAboveOrEqualToAverage);
     printf("%d\n", minMaxDiff); // Output baru: selisih min-max
 }
 
@@ -95,8 +96,8 @@ int main() {
     // 3. Hitung rata-rata
     double avg = calculateAverage(totalSum, n);
 
-    // 4. Hitung jumlah bilangan di atas rata-rata
-    int aboveAverageCount = countNumbersAboveAverage(n, numbers, avg);
+    // 4. Hitung jumlah bilangan di atas ATAU SAMA DENGAN rata-rata
+    int aboveOrEqualToAverageCount = countNumbersAboveOrEqualToAverage(n, numbers, avg);
 
     // 5. Hitung selisih antara nilai tertinggi dan terendah
     int minVal = findMinimum(n, numbers);
@@ -104,7 +105,7 @@ int main() {
     int minMaxDifference = maxVal - minVal;
 
     // 6. Tampilkan hasil
-    printResults(totalSum, avg, aboveAverageCount, minMaxDifference);
+    printResults(totalSum, avg, aboveOrEqualToAverageCount, minMaxDifference);
 
     // Bebaskan memori yang dialokasikan
     free(numbers);

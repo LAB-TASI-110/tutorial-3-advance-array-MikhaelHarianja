@@ -33,11 +33,12 @@ double calculateAverage(double sum, int n) {
     return sum / n;
 }
 
-// Fungsi baru untuk menghitung berapa banyak bilangan di atas rata-rata
-int countNumbersAboveAverage(int n, int *arr, double average) {
+// FUNGSI INI ADALAH YANG DIMODIFIKASI: Menghitung berapa banyak bilangan di atas ATAU SAMA DENGAN rata-rata
+int countNumbersAboveOrEqualToAverage(int n, int *arr, double average) {
     int count = 0;
     for (int i = 0; i < n; i++) {
-        if (arr[i] > average) {
+        // PERUBAHAN UTAMA DI SINI: dari '>' menjadi '>='
+        if (arr[i] >= average) {
             count++;
         }
     }
@@ -45,10 +46,10 @@ int countNumbersAboveAverage(int n, int *arr, double average) {
 }
 
 // Fungsi untuk menampilkan hasil
-void printResults(double sum, double average, int countAboveAverage) {
+void printResults(double sum, double average, int countAboveOrEqualToAverage) {
     printf("%.0f\n", sum);
     printf("%.2f\n", average);
-    printf("%d\n", countAboveAverage); // Output baru
+    printf("%d\n", countAboveOrEqualToAverage); // Output jumlah bilangan >= rata-rata
 }
 
 // Fungsi utama program
@@ -57,7 +58,6 @@ int main() {
     int n = getN();
 
     // Alokasikan memori secara dinamis untuk menyimpan n bilangan
-    // Ini penting karena kita perlu mengakses bilangan dua kali (untuk sum/avg dan untuk count above avg)
     int *numbers = (int *)malloc(n * sizeof(int));
     if (numbers == NULL) {
         // Penanganan error jika alokasi memori gagal
@@ -70,11 +70,11 @@ int main() {
     // 3. Hitung rata-rata
     double avg = calculateAverage(totalSum, n);
 
-    // 4. Hitung jumlah bilangan di atas rata-rata
-    int aboveAverageCount = countNumbersAboveAverage(n, numbers, avg);
+    // 4. Hitung jumlah bilangan di atas ATAU SAMA DENGAN rata-rata
+    int aboveOrEqualToAverageCount = countNumbersAboveOrEqualToAverage(n, numbers, avg);
 
     // 5. Tampilkan hasil
-    printResults(totalSum, avg, aboveAverageCount);
+    printResults(totalSum, avg, aboveOrEqualToAverageCount);
 
     // Bebaskan memori yang dialokasikan
     free(numbers);
